@@ -62,10 +62,11 @@ class TransformContext extends Component<
   }
 > {
   public mounted = true;
+  
+  public noTransform = false;
 
   public transformState: ReactZoomPanPinchState = createState(this.props);
 
-  public setup: LibrarySetup = createSetup(this.props);
 
   // Components
   public wrapperComponent: HTMLDivElement | null = null;
@@ -437,7 +438,7 @@ class TransformContext extends Component<
   };
 
   applyTransformation = (): void => {
-    if (!this.mounted || !this.contentComponent) return;
+    if (!this.mounted || !this.contentComponent || this.noTransform) return;
     const { scale, positionX, positionY } = this.transformState;
     const transform = getTransformStyles(positionX, positionY, scale);
     this.contentComponent.style.transform = transform;
